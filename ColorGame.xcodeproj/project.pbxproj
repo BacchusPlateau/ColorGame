@@ -15,6 +15,15 @@
 		BA4969FF243B9A9A00C42E70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA4969FD243B9A9A00C42E70 /* Main.storyboard */; };
 		BA496A01243B9A9E00C42E70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA496A00243B9A9E00C42E70 /* Assets.xcassets */; };
 		BA496A04243B9A9E00C42E70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA496A02243B9A9E00C42E70 /* LaunchScreen.storyboard */; };
+		BA496A13243B9BE300C42E70 /* powerUp.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A0C243B9BE300C42E70 /* powerUp.wav */; };
+		BA496A14243B9BE300C42E70 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A0D243B9BE300C42E70 /* move.wav */; };
+		BA496A15243B9BE300C42E70 /* MenuHighscoreMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BA496A0E243B9BE300C42E70 /* MenuHighscoreMusic.mp3 */; };
+		BA496A16243B9BE300C42E70 /* background.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A0F243B9BE300C42E70 /* background.wav */; };
+		BA496A17243B9BE300C42E70 /* levelCompleted.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A10243B9BE300C42E70 /* levelCompleted.wav */; };
+		BA496A18243B9BE300C42E70 /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A11243B9BE300C42E70 /* fail.wav */; };
+		BA496A19243B9BE300C42E70 /* levelUp.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A12243B9BE300C42E70 /* levelUp.wav */; };
+		BA496A1B243BB3A900C42E70 /* pulse.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A1A243BB3A900C42E70 /* pulse.sks */; };
+		BA496A1D243BB47500C42E70 /* fireworks.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A1C243BB47500C42E70 /* fireworks.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +37,15 @@
 		BA496A00243B9A9E00C42E70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA496A03243B9A9E00C42E70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA496A05243B9A9E00C42E70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA496A0C243B9BE300C42E70 /* powerUp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = powerUp.wav; sourceTree = "<group>"; };
+		BA496A0D243B9BE300C42E70 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
+		BA496A0E243B9BE300C42E70 /* MenuHighscoreMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MenuHighscoreMusic.mp3; sourceTree = "<group>"; };
+		BA496A0F243B9BE300C42E70 /* background.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background.wav; sourceTree = "<group>"; };
+		BA496A10243B9BE300C42E70 /* levelCompleted.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelCompleted.wav; sourceTree = "<group>"; };
+		BA496A11243B9BE300C42E70 /* fail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fail.wav; sourceTree = "<group>"; };
+		BA496A12243B9BE300C42E70 /* levelUp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelUp.wav; sourceTree = "<group>"; };
+		BA496A1A243BB3A900C42E70 /* pulse.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = pulse.sks; sourceTree = "<group>"; };
+		BA496A1C243BB47500C42E70 /* fireworks.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fireworks.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,14 +81,31 @@
 				BA4969F3243B9A9A00C42E70 /* AppDelegate.swift */,
 				BA4969F5243B9A9A00C42E70 /* GameScene.sks */,
 				BA4969F7243B9A9A00C42E70 /* Actions.sks */,
+				BA496A1C243BB47500C42E70 /* fireworks.sks */,
 				BA4969F9243B9A9A00C42E70 /* GameScene.swift */,
+				BA496A1A243BB3A900C42E70 /* pulse.sks */,
 				BA4969FB243B9A9A00C42E70 /* GameViewController.swift */,
 				BA4969FD243B9A9A00C42E70 /* Main.storyboard */,
+				BA496A0B243B9BE300C42E70 /* Sounds */,
 				BA496A00243B9A9E00C42E70 /* Assets.xcassets */,
 				BA496A02243B9A9E00C42E70 /* LaunchScreen.storyboard */,
 				BA496A05243B9A9E00C42E70 /* Info.plist */,
 			);
 			path = ColorGame;
+			sourceTree = "<group>";
+		};
+		BA496A0B243B9BE300C42E70 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				BA496A0C243B9BE300C42E70 /* powerUp.wav */,
+				BA496A0D243B9BE300C42E70 /* move.wav */,
+				BA496A0E243B9BE300C42E70 /* MenuHighscoreMusic.mp3 */,
+				BA496A0F243B9BE300C42E70 /* background.wav */,
+				BA496A10243B9BE300C42E70 /* levelCompleted.wav */,
+				BA496A11243B9BE300C42E70 /* fail.wav */,
+				BA496A12243B9BE300C42E70 /* levelUp.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,9 +168,18 @@
 			files = (
 				BA4969FF243B9A9A00C42E70 /* Main.storyboard in Resources */,
 				BA4969F6243B9A9A00C42E70 /* GameScene.sks in Resources */,
+				BA496A16243B9BE300C42E70 /* background.wav in Resources */,
+				BA496A17243B9BE300C42E70 /* levelCompleted.wav in Resources */,
+				BA496A1D243BB47500C42E70 /* fireworks.sks in Resources */,
+				BA496A19243B9BE300C42E70 /* levelUp.wav in Resources */,
 				BA496A01243B9A9E00C42E70 /* Assets.xcassets in Resources */,
+				BA496A14243B9BE300C42E70 /* move.wav in Resources */,
+				BA496A1B243BB3A900C42E70 /* pulse.sks in Resources */,
 				BA496A04243B9A9E00C42E70 /* LaunchScreen.storyboard in Resources */,
 				BA4969F8243B9A9A00C42E70 /* Actions.sks in Resources */,
+				BA496A18243B9BE300C42E70 /* fail.wav in Resources */,
+				BA496A15243B9BE300C42E70 /* MenuHighscoreMusic.mp3 in Resources */,
+				BA496A13243B9BE300C42E70 /* powerUp.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
