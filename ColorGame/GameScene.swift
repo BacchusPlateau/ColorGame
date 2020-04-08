@@ -20,11 +20,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var tracksArray: [SKSpriteNode]? = [SKSpriteNode]()
     var player: SKSpriteNode?
     var target: SKSpriteNode?
+    var timeLabel: SKLabelNode?
+    var scoreLabel: SKLabelNode?
     
+    var currentScore: Int = 0 {
+        didSet {
+            self.scoreLabel?.text = "SCORE: \(self.currentScore)"
+        }
+    }
+    var remainingTime: TimeInterval = 60 {
+        didSet {
+            self.timeLabel?.text = "TIME: \(Int(self.remainingTime))"
+        }
+    }
     var currentTrack = 0
     var movingToTrack = false
     
     let moveSound = SKAction.playSoundFileNamed("move.wav", waitForCompletion: false)
+    var backgroundNoise: SKAudioNode!
     
     let trackVelocities = [180, 200, 250]
     var directionArray = [Bool]()
@@ -33,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerCategory: UInt32 = 0x1 << 0
     var enemyCategory: UInt32 = 0x1 << 1
     var targetCategory: UInt32 = 0x1 << 2
+    var powerupCategory: UInt32 = 0x1 << 3
     
     func createEnemy(type: Enemies, forTrack track:Int) -> SKShapeNode? {
         
@@ -68,6 +82,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func createHud() {
+        
+        timeLabel = self.childNode(withName: "time") as? SKLabelNode
+        scoreLabel = self.childNode(withName: "score") as? SKLabelNode
+        
+        remainingTime = 60
+        currentScore = 0
+        
+    }
+    
     func createPlayer() {
         
         player = SKSpriteNode(imageNamed: "player")
@@ -75,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.physicsBody?.linearDamping = 0
         player?.physicsBody?.categoryBitMask = playerCategory
         player?.physicsBody?.collisionBitMask = 0  //deactivates all collisions
-        player?.physicsBody?.contactTestBitMask = enemyCategory | targetCategory
+        player?.physicsBody?.contactTestBitMask = enemyCategory | targetCategory | powerupCategory
         
         guard let playerPosition = tracksArray?.first?.position.x else {
             return
@@ -86,6 +110,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let pulse = SKEmitterNode(fileNamed: "pulse.sks")!
         player?.addChild(pulse)
         pulse.position = CGPoint(x: 0, y: 0)
+        
+    }
+    
+    func createPowerup(forTrack track:Int) -> SKSpriteNode? {
+        
+        let powerUpSprite = SKSpriteNode(imageNamed: "powerUp")
+        powerUpSprite.name = "ENEMY"  //so it can be removed
+        powerUpSprite.physicsBody = SKPhysicsBody(circleOfRadius: powerUpSprite.size.width / 2)
+        powerUpSprite.physicsBody?.linearDamping = 0
+        powerUpSprite.physicsBody?.categoryBitMask = powerupCategory
+        powerUpSprite.physicsBody?.collisionBitMask = 0
+        
+        let up = directionArray[track]
+        guard let powerUpXPosition = tracksArray?[track].position.x else { return nil }
+        powerUpSprite.position.x = powerUpXPosition
+        powerUpSprite.position.y = up ? -130 : self.size.height + 130
+        powerUpSprite.physicsBody?.velocity = up ? CGVector(dx: 0, dy: velocityArray[track]) :
+            CGVector(dx: 0, dy: -velocityArray[track])
+        
+        return powerUpSprite
         
     }
     
@@ -115,19 +159,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ?  because when would the playerBody ever not have a category bitmask equal to the playerCategory?
         
         if playerBody.categoryBitMask == playerCategory && otherBody.categoryBitMask == enemyCategory {
-            print("Enemy hit")
+            self.run(SKAction.playSoundFileNamed("fail.wav", waitForCompletion: true))
+            movePlayerToStart()
         } else if playerBody.categoryBitMask == playerCategory && otherBody.categoryBitMask == targetCategory  {
-            print("Target hit")
+           nextLevel(playerPhysicsBody: playerBody)
+        } else if playerBody.categoryBitMask == playerCategory && otherBody.categoryBitMask == powerupCategory  {
+            self.run(SKAction.playSoundFileNamed("powerup.wav", waitForCompletion: true))
+            otherBody.node?.removeFromParent()
+            remainingTime += 5
         }
     }
     
     override func didMove(to view: SKView) {
         
         setupTracks()
+        createHud()
+        launchGameTimer()
         createPlayer()
         createTarget()
         
         self.physicsWorld.contactDelegate = self
+        
+        if let musicUrl = Bundle.main.url(forResource: "background", withExtension: "wav") {
+            
+            backgroundNoise = SKAudioNode(url: musicUrl)
+            addChild(backgroundNoise)
+            
+        }
         
         if let numberOfTracks = tracksArray?.count {
             for _ in 0 ... numberOfTracks {
@@ -143,6 +201,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func launchGameTimer() {
+        
+        let timeAction = SKAction.repeatForever(SKAction.sequence([SKAction.run {
+            self.remainingTime -= 1
+            }, SKAction.wait(forDuration: 1)]))
+        
+        timeLabel?.run(timeAction)
+        
+    }
+    
+    func movePlayerToStart() {
+        
+        if let player = self.player {
+            player.removeFromParent()
+            self.player = nil
+            self.createPlayer()
+            self.currentTrack = 0
+        }
+        
+    }
+    
     func moveToNextTrack() {
         
         player?.removeAllActions()
@@ -152,8 +231,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let player = self.player {
             let moveAction = SKAction.move(to: CGPoint(x: nextTrack.x, y: player.position.y), duration: 0.2)
+            
+            let up = directionArray[currentTrack + 1]
+            
             player.run(moveAction, completion: {
                 self.movingToTrack = false
+                
+                if self.currentTrack != 8 {
+                self.player?.physicsBody?.velocity = up ? CGVector(dx: 0, dy: self.velocityArray[self.currentTrack]) :
+                    CGVector(dx: 0, dy: -self.velocityArray[self.currentTrack])
+                } else {
+                    self.player?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                }
+                
+                
             })
             currentTrack += 1
             
@@ -177,6 +268,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func nextLevel (playerPhysicsBody: SKPhysicsBody) {
+        
+        currentScore += 1
+        self.run(SKAction.playSoundFileNamed("levelUp.wav", waitForCompletion: true))
+        let emitter = SKEmitterNode(fileNamed: "fireworks.sks")
+        playerPhysicsBody.node?.addChild(emitter!)
+        self.run(SKAction.wait(forDuration: 0.5)) {
+            
+            emitter?.removeFromParent()
+            self.movePlayerToStart()
+            
+        }
+    }
+    
     func setupTracks() {
         
         for i in 0 ... 8 {
@@ -189,11 +294,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnEnemies() {
         
+        var randomTrackNumber = 0
+        let createPowerUp = GKRandomSource.sharedRandom().nextBool()
+        
+        if createPowerUp {
+            randomTrackNumber = GKRandomSource.sharedRandom().nextInt(upperBound: 6) + 1
+            if let powerUpObject = self.createPowerup(forTrack: randomTrackNumber) {
+                self.addChild(powerUpObject)
+            }
+        }
+        
         for i in 1 ... 7 {
             
-            let randomEnemyType = Enemies(rawValue: GKRandomSource.sharedRandom().nextInt(upperBound: 3))!
-            if let newEnemy = createEnemy(type: randomEnemyType, forTrack: i) {
-                self.addChild(newEnemy)
+            if randomTrackNumber != i {
+                
+                let randomEnemyType = Enemies(rawValue: GKRandomSource.sharedRandom().nextInt(upperBound: 3))!
+                if let newEnemy = createEnemy(type: randomEnemyType, forTrack: i) {
+                    self.addChild(newEnemy)
+                }
+                
             }
             
         }
@@ -241,6 +360,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        
+        if let player = self.player {
+            if player.position.y > self.size.height || player.position.y < 0 {
+                movePlayerToStart()
+            }
+        }
+     
+        if remainingTime <= 5 {
+            timeLabel?.fontColor = UIColor.red
+        }
+        
     }
 }
