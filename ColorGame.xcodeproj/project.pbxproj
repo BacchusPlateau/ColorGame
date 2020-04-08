@@ -24,6 +24,12 @@
 		BA496A19243B9BE300C42E70 /* levelUp.wav in Resources */ = {isa = PBXBuildFile; fileRef = BA496A12243B9BE300C42E70 /* levelUp.wav */; };
 		BA496A1B243BB3A900C42E70 /* pulse.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A1A243BB3A900C42E70 /* pulse.sks */; };
 		BA496A1D243BB47500C42E70 /* fireworks.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A1C243BB47500C42E70 /* fireworks.sks */; };
+		BA496A22243E4AAB00C42E70 /* StartScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A1E243E4AAB00C42E70 /* StartScene.sks */; };
+		BA496A23243E4AAB00C42E70 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A1F243E4AAB00C42E70 /* GameOverScene.swift */; };
+		BA496A24243E4AAB00C42E70 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A20243E4AAB00C42E70 /* StartScene.swift */; };
+		BA496A25243E4AAB00C42E70 /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA496A21243E4AAB00C42E70 /* GameOverScene.sks */; };
+		BA496A27243E5A1100C42E70 /* ScrollingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A26243E5A1100C42E70 /* ScrollingBackground.swift */; };
+		BA496A29243E649400C42E70 /* GameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A28243E649400C42E70 /* GameHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +52,12 @@
 		BA496A12243B9BE300C42E70 /* levelUp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelUp.wav; sourceTree = "<group>"; };
 		BA496A1A243BB3A900C42E70 /* pulse.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = pulse.sks; sourceTree = "<group>"; };
 		BA496A1C243BB47500C42E70 /* fireworks.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fireworks.sks; sourceTree = "<group>"; };
+		BA496A1E243E4AAB00C42E70 /* StartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartScene.sks; sourceTree = "<group>"; };
+		BA496A1F243E4AAB00C42E70 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		BA496A20243E4AAB00C42E70 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
+		BA496A21243E4AAB00C42E70 /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
+		BA496A26243E5A1100C42E70 /* ScrollingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingBackground.swift; sourceTree = "<group>"; };
+		BA496A28243E649400C42E70 /* GameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +92,15 @@
 			children = (
 				BA4969F3243B9A9A00C42E70 /* AppDelegate.swift */,
 				BA4969F5243B9A9A00C42E70 /* GameScene.sks */,
+				BA496A21243E4AAB00C42E70 /* GameOverScene.sks */,
+				BA496A1F243E4AAB00C42E70 /* GameOverScene.swift */,
+				BA496A1E243E4AAB00C42E70 /* StartScene.sks */,
+				BA496A20243E4AAB00C42E70 /* StartScene.swift */,
+				BA496A26243E5A1100C42E70 /* ScrollingBackground.swift */,
 				BA4969F7243B9A9A00C42E70 /* Actions.sks */,
 				BA496A1C243BB47500C42E70 /* fireworks.sks */,
 				BA4969F9243B9A9A00C42E70 /* GameScene.swift */,
+				BA496A28243E649400C42E70 /* GameHandler.swift */,
 				BA496A1A243BB3A900C42E70 /* pulse.sks */,
 				BA4969FB243B9A9A00C42E70 /* GameViewController.swift */,
 				BA4969FD243B9A9A00C42E70 /* Main.storyboard */,
@@ -169,6 +187,8 @@
 				BA4969FF243B9A9A00C42E70 /* Main.storyboard in Resources */,
 				BA4969F6243B9A9A00C42E70 /* GameScene.sks in Resources */,
 				BA496A16243B9BE300C42E70 /* background.wav in Resources */,
+				BA496A22243E4AAB00C42E70 /* StartScene.sks in Resources */,
+				BA496A25243E4AAB00C42E70 /* GameOverScene.sks in Resources */,
 				BA496A17243B9BE300C42E70 /* levelCompleted.wav in Resources */,
 				BA496A1D243BB47500C42E70 /* fireworks.sks in Resources */,
 				BA496A19243B9BE300C42E70 /* levelUp.wav in Resources */,
@@ -192,6 +212,10 @@
 			files = (
 				BA4969FA243B9A9A00C42E70 /* GameScene.swift in Sources */,
 				BA4969FC243B9A9A00C42E70 /* GameViewController.swift in Sources */,
+				BA496A23243E4AAB00C42E70 /* GameOverScene.swift in Sources */,
+				BA496A29243E649400C42E70 /* GameHandler.swift in Sources */,
+				BA496A27243E5A1100C42E70 /* ScrollingBackground.swift in Sources */,
+				BA496A24243E4AAB00C42E70 /* StartScene.swift in Sources */,
 				BA4969F4243B9A9A00C42E70 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

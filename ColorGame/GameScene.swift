@@ -22,10 +22,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var target: SKSpriteNode?
     var timeLabel: SKLabelNode?
     var scoreLabel: SKLabelNode?
+    var pause: SKSpriteNode?
     
     var currentScore: Int = 0 {
         didSet {
             self.scoreLabel?.text = "SCORE: \(self.currentScore)"
+            GameHandler.sharedInstance.score = currentScore
         }
     }
     var remainingTime: TimeInterval = 60 {
@@ -84,6 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createHud() {
         
+        pause = self.childNode(withName: "pause") as? SKSpriteNode
         timeLabel = self.childNode(withName: "time") as? SKLabelNode
         scoreLabel = self.childNode(withName: "score") as? SKLabelNode
         
@@ -201,6 +204,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func gameOver() {
+    
+        GameHandler.sharedInstance.saveGameStats()
+        self.run(SKAction.playSoundFileNamed("levelCompleted.sav", waitForCompletion: true))
+        let transition = SKTransition.fade(withDuration: 1)
+        if let gameOverScene = SKScene(fileNamed: "GameOverScene.sks") {
+            gameOverScene.scaleMode = .aspectFit
+            self.view?.presentScene(gameOverScene, transition: transition)
+        }
+        
+    }
+    
     func launchGameTimer() {
         
         let timeAction = SKAction.repeatForever(SKAction.sequence([SKAction.run {
@@ -226,6 +241,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player?.removeAllActions()
         movingToTrack = true
+        
+        //guard against overflow
+        if let numberOfTracks = tracksArray?.count {
+            if currentTrack + 1 >= numberOfTracks {
+                return
+            }
+        }
         
         guard let nextTrack = tracksArray?[currentTrack + 1].position else { return }
         
@@ -332,12 +354,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.previousLocation(in: self)
             let node = self.nodes(at: location).first
             
-            if node?.name == "right" {
+            if node?.name == "right" && currentTrack < 8 {
                 moveToNextTrack()
             } else if node?.name == "up" {
                 moveVertically(up: true)
             } else if node?.name == "down" {
                 moveVertically(up: false)
+            } else if node?.name == "pause", let scene = self.scene {
+                if scene.isPaused {
+                    scene.isPaused = false
+                } else {
+                    scene.isPaused = true
+                }
             }
             
         }
@@ -369,6 +397,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      
         if remainingTime <= 5 {
             timeLabel?.fontColor = UIColor.red
+        }
+        
+        if remainingTime == 0 {
+            gameOver()
         }
         
     }
